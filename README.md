@@ -94,4 +94,41 @@ MUSIC Test:
 ```
 mpirun -np 1 ./MUSICTest
 ```
-Let it run, if there are root errors then try adding to environment file 
+Let it run, if there are root errors then try adding to environment file these lines:
+```
+export OMPI_ALLOW_RUN_AS_ROOT=1
+export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+```
+There may also be an error that T_freeze = 0.3 is not physical, but I ignore it
+
+SMASH Test:
+```
+./SMASHTest
+```
+Same here with the T_freeze error
+
+### Optional Reader Test
+```
+./readerTest
+```
+(will save output under three files:
+my_test.gv, my_test.gml, my_test.graphml
+
+scp to local machine, then run command to convert to PDF
+(from local machine terminal)
+```
+scp <username>@login.accre.vanderbilt.edu:/home/<username>/jetbox/myX-SCAPE/X-SCAPE/build/my_test.gv ~/
+```
+(Make sure you have the converter software "dot")
+```
+dot my_test.gv -Tdf -o outputPDF.pdf
+```
+When you open outputPDF.pdf, it should show parton splitting 
+
+## Running JETSCAPE p+p results publication file
+```
+./runJetscape ../config/publications_config/arXiv_1910.05481/jetscape_user_PP_1910.05481.xml
+```
+Resulting files will be test_out.dat, test_out_final_state_hadrons.dat, and test_out_final_state_partons.dat
+
+
