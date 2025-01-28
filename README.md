@@ -7,7 +7,7 @@ ssh into your HPC grid account
 ```
 mkdir jetbox
 cd jetbox
-singularity build --jet.sif docker://jetscape/base:stable
+singularity build jet.sif docker://jetscape/base:stable
 singularity shell jet.sif
 ```
 
