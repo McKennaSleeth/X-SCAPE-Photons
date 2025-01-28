@@ -17,6 +17,8 @@ singularity shell jet.sif
 mkdir myX-SCAPE
 cd myX-SCAPE
 git clone https://github.com/JETSCAPE/X-SCAPE.git
+cd X-SCAPE
+mkdir build
 ```
 
 ### External Packages
