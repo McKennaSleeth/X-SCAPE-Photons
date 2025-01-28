@@ -32,7 +32,7 @@ cd external_packages
 ```
 Download PYTHIA (in external_packages directory)
 ```
-wget phttps://pythia.org/download/pythia83/pythia8309.tgz
+wget https://pythia.org/download/pythia83/pythia8309.tgz
 tar zxf pythia8309.tgz
 mv pythia8309.tgz pythia8309
 cd pythia8309
