@@ -24,7 +24,7 @@ mkdir build
 ### External Packages
 (cmake components will be in build directory after running scripts to install packages)
 ```
-cd ../external_packages
+cd external_packages
 ./get_3dglauber.sh
 ./get_music.sh
 ./get_iSS.sh
