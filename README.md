@@ -1,4 +1,4 @@
-# X-SCAPE-Photons-Analysis
+# X-SCAPE Installation:
 
 ## Follow directions on how to install X-SCAPE in singularity on an HPC grid, the one used in my analysis was Vanderbilt's ACCRE.
 (Just in case, I will put down my steps here):
