@@ -48,24 +48,24 @@ for pTHat in "${pTHat_ranges[@]}"; do
     #FILE_NAME="job_AuAu_only_soft_sector_hydro_1_event_centr${RANGE}_test_000/event_${RANGE}_final_state_hadrons.dat"
     #FILE_NAME="event_${RANGE}_final_state_hadrons.dat"
     for i in $(seq -w 0 9); do
-	for centrality in "${centrality_ranges[@]}"; do
-	    FILE_NAME="jetscape_AuAu_pTHat${pTHat}_frag_hydro_file_10k_centr${centrality}_${i}_final_state_hadrons.dat"
+		for centrality in "${centrality_ranges[@]}"; do
+	    	FILE_NAME="jetscape_AuAu_pTHat${pTHat}_frag_hydro_file_10k_centr${centrality}_${i}_final_state_hadrons.dat"
     #photon_pp_pTHat5_10_out_alldecayoff_prompt_nohydro_10k_final_state_hadrons.dat
     #photon_pp_pTHat1_3_out_alldecayoff_1M_final_state_hadrons.dat
     #photon_pp_pTHat19_20_out_alldecayoff_1M_fixedPID_final_state_hadrons.dat
 		
 	# Construct the full path to the .dat file
 	#DAT_FILE="${BASE_DIR}/job_direct${RANGE}_${i}/${FILE_NAME}"
-	    DAT_FILE="${BASE_DIR}/jetscape_AuAu_pTHat${pTHat}_frag_hydro_file_10k_centr${centrality}_00${i}/${FILE_NAME}"
+	    	DAT_FILE="${BASE_DIR}/jetscape_AuAu_pTHat${pTHat}_frag_hydro_file_10k_centr${centrality}_00${i}/${FILE_NAME}"
     
 	# Check if the file exists
-	if [ -f "$DAT_FILE" ]; then
-	    FILE_PATHS+=("$DAT_FILE")
+		if [ -f "$DAT_FILE" ]; then
+	    	FILE_PATHS+=("$DAT_FILE")
 	    
-	else
-	    echo "File $DAT_FILE does not exist."
-	fi
-	done   
+		else
+	    	echo "File $DAT_FILE does not exist."
+		fi
+		done   
     done
 done
 
