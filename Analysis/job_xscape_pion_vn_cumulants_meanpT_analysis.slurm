@@ -4,11 +4,11 @@
 
 #SBATCH --time=14-00:00:00
 
-#SBATCH --job-name=pion_AuAu_pTHat15_100_hard_sector_nohydro_quenched_z_deltaR_10k_events_trackpTcut_centr0_10_analysis
+#SBATCH --job-name=pion_AuAu_only_soft_sector_hydro_vn_cumulants_etagap_err_meanpT_10_events_centr40_50_analysis
 
-#SBATCH --output=output_AuAu_pTHat15_100_hard_sector_nohydro_quenched_z_deltaR_centr0_10_10k_events_trackpTcut.log
+#SBATCH --output=output_AuAu_only_soft_sector_hydro_pion_vn_cumulants_etagap_err_meanpT_centr40_50_10_events.log
 
-#SBATCH --error=error_AuAu_pTHat15_100_hard_sector_nohydro_quenched_z_deltaR_centr0_10_10k_events_trackpTcut.log
+#SBATCH --error=error_AuAu_only_soft_sector_hydro_pion_vn_cumulants_etagap_err_meanpT_centr40_50_10_events.log
 
 #SBATCH --ntasks=1
 
@@ -31,43 +31,33 @@
 #export PATH=/data/rke_group/Software/JEWEL/jewel-2.4.0/:$PATH
 #sed -i "s|<outputFilename>.*</outputFilename>|<outputFilename>${output_file}</outputFilename>|" ../config/jetscape_pp_frag_pions.xml
 
-BASE_DIR="/data/rke_group/sleethmr"
+BASE_DIR="/data/rke_group/AuAuOnlyHydroFiles/Simulations"
 
 # Array of pTHat ranges to process
 centrality_ranges=(
-    "0" "1" "2" "3" "4" "5" "6" "7" "8" "9" 
-)
-
-pTHat_ranges=(
-    "15_100"
+    "40_50" 
 )
 
 FILE_PATHS=()
-for pTHat in "${pTHat_ranges[@]}"; do
-    #FILE_NAME="jetscape_AuAu_pTHat5_10_hydro10_1k_centr${RANGE}/test_out_pTHat5_10_hydro10_AuAu_200_centr_${RANGE}_1k_events_final_state_hadrons.dat"
-    #FILE_NAME="job_AuAu_only_soft_sector_hydro10_1_event_centr${RANGE}_test_000/event_${RANGE}_final_state_hadrons.dat"
-    #FILE_NAME="event_${RANGE}_final_state_hadrons.dat"
-    for i in $(seq -w 0 9); do
-	for centrality in "${centrality_ranges[@]}"; do
-	    #FILE_NAME="jetscape_AuAu_pTHat${pTHat}_frag_hydro10_file_10k_centr${centrality}_${i}_final_state_hadrons.dat"
-	    FILE_NAME="jetscape_AuAu_pTHat${pTHat}_frag_nohydro_quenched_10k_centr${centrality}_${i}_final_state_hadrons.dat"
-    #photon_pp_pTHat5_10_out_alldecayoff_prompt_nohydro10_10k_final_state_hadrons.dat
+for RANGE in "${centrality_ranges[@]}"; do
+    #FILE_NAME="jetscape_AuAu_pTHat5_10_hydro_1k_centr${RANGE}/test_out_pTHat5_10_hydro_AuAu_200_centr_${RANGE}_1k_events_final_state_hadrons.dat"
+    #FILE_NAME="job_AuAu_only_soft_sector_hydro_1_event_centr${RANGE}_test_000/event_${RANGE}_final_state_hadrons.dat"
+    FILE_NAME="event_${RANGE}_final_state_hadrons.dat"
+    #photon_pp_pTHat5_10_out_alldecayoff_prompt_nohydro_10k_final_state_hadrons.dat
     #photon_pp_pTHat1_3_out_alldecayoff_1M_final_state_hadrons.dat
     #photon_pp_pTHat19_20_out_alldecayoff_1M_fixedPID_final_state_hadrons.dat
-		
+    for i in $(seq -w 000 009); do	
 	# Construct the full path to the .dat file
 	#DAT_FILE="${BASE_DIR}/job_direct${RANGE}_${i}/${FILE_NAME}"
-	    #DAT_FILE="${BASE_DIR}/jetscape_AuAu_pTHat${pTHat}_frag_hydro10_file_10k_centr${centrality}_00${i}/${FILE_NAME}"
-	    DAT_FILE="${BASE_DIR}/jetscape_AuAu_pTHat${pTHat}_frag_nohydro_quenched_file_10k_centr${centrality}_00${i}/${FILE_NAME}"
+	DAT_FILE="${BASE_DIR}/Centrality${RANGE}/job_AuAu_only_soft_sector_hydro_10_events_centr${RANGE}_test_${i}/${FILE_NAME}"
     
 	# Check if the file exists
 	if [ -f "$DAT_FILE" ]; then
 	    FILE_PATHS+=("$DAT_FILE")
-	    
+
 	else
-	    echo "File $DAT_FILE does not exist."
+            echo "File $DAT_FILE does not exist."
 	fi
-	done   
     done
 done
 
@@ -81,9 +71,9 @@ echo "Processing $DAT_FILE"
 export APPTAINER_BINDPATH="/panfs,/data,/nobackup,/data/rke_group/sleethmr"
  
 # Run the singularity command
-apptainer exec  /home/sleethmr/jetbox/jetbox ./test_jet_etaphi_nohydro_quench "${FILE_PATHS[@]}"
+apptainer exec  /home/sleethmr/jetbox/jetbox ./pion_v2_meanpT_Cumulants_etagap_errors "${FILE_PATHS[@]}"
 
-#singularity exec --bind /data/rke_group/sleethmr:/data/rke_group/sleethmr /home/sleethmr/jetbox/jet.sif ./pionfrag_func_deltaR_slurm /data/rke_group/sleethmr/job_0*/pion_pp_pTHat15_100_out_alldecayoff_prompt_hydro10_10M_final_state_hadrons.dat
+#singularity exec --bind /data/rke_group/sleethmr:/data/rke_group/sleethmr /home/sleethmr/jetbox/jet.sif ./pionfrag_func_deltaR_slurm /data/rke_group/sleethmr/job_0*/pion_pp_pTHat15_100_out_alldecayoff_prompt_hydro_10M_final_state_hadrons.dat
 
 #singularity exec --bind /data/rke_group/sleethmr:/mnt /home/sleethmr/jetbox/jet.sif /home/sleethmr/jetbox/myX-SCAPE/X-SCAPE/build/Analysis/pionfrag_func_deltaR_slurm_norm_integral /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_1_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_2_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_3_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_4_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_5_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_6_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_7_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_8_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_9_final_state_hadrons.dat /mnt/pion_pp_pTHat35_100_out_alldecayoff_noprompt_10M_10_final_state_hadrons.dat
 
