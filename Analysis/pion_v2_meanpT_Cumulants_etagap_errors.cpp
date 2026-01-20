@@ -26,7 +26,6 @@ double calcEta(double Px, double Py, double Pz) {
   double pz = Pz;
   double p = std::sqrt(Px * Px + Py * Py + pz * pz);
   double cosTheta = pz / p;
-  // Guard against floating point issues:
   if (cosTheta >  1.0) cosTheta =  1.0;
   if (cosTheta < -1.0) cosTheta = -1.0;
   double theta = std::acos(cosTheta);
@@ -60,7 +59,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  constexpr double pt_cut = 0.2;       // GeV/c pT cut
+  constexpr double pt_cut = 0.2;       // GeV pT cut
   constexpr double eta_gap = 0.0;      // midrapidity gap width
 
   std::vector<double> c2_2_events;
@@ -142,47 +141,37 @@ int main(int argc, char* argv[]) {
 	double mean_pt = (pion_count > 0) ? (pion_pt_sum / pion_count) : 0.0;
 			
 	double c2_2 = 0.0;
-	double c4_2 = 0.0;
 	if(Q2_A.sum_w > 0 && Q2_B.sum_w > 0 && Q2_A.sum_w > 1 && Q2_B.sum_w >1) {
 	  c2_2 = std::real(Q2_A.Qn * std::conj(Q2_B.Qn)) / (Q2_A.sum_w * Q2_B.sum_w);
 	  
 	  double numerator = (std::norm(Q2_A.Qn) - Q2_A.sum_w2) * (std::norm(Q2_B.Qn) - Q2_B.sum_w2) - (std::norm(Q2_A.Q2n) * std::norm(Q2_B.Q2n)) / (Q2_A.sum_w * Q2_B.sum_w);
 	  
 	  double denominator = Q2_A.sum_w * (Q2_A.sum_w - 1) * Q2_B.sum_w * (Q2_B.sum_w-1);
-	  if(denominator > 0) {
-	    c4_2 = numerator / denominator - 2.0 * c2_2 * c2_2;
-	  }
 	}
 	
 	// Weighted for v3
 	double c2_3 = 0.0;
-	double c4_3 = 0.0;
 	if(Q3_A.sum_w > 0 && Q3_B.sum_w > 0 && Q3_A.sum_w > 1 && Q3_B.sum_w >1) {
 	  c2_3 = std::real(Q3_A.Qn * std::conj(Q3_B.Qn)) / (Q3_A.sum_w * Q3_B.sum_w);
 	  
 	  double numerator = (std::norm(Q3_A.Qn) - Q3_A.sum_w2) * (std::norm(Q3_B.Qn) - Q3_B.sum_w2) - (std::norm(Q3_A.Q2n) * std::norm(Q3_B.Q2n)) / (Q3_A.sum_w * Q3_B.sum_w);
 
 	  double denominator = Q3_A.sum_w * (Q3_A.sum_w - 1) * Q3_B.sum_w * (Q3_B.sum_w-1);
-	  if(denominator > 0) {
-	    c4_3 = numerator / denominator - 2.0 * c2_3 * c2_3;
-	  }
 	}
 	
 	// Store per-event c2 cumulants for mean and SEM calc
 	if(c2_2 > 0) c2_2_events.push_back(c2_2);
 	if(c2_3 > 0) c2_3_events.push_back(c2_3);
 	
-	// Calculate vn{2} and vn{4} per event for printing
+	// Calculate vn{2} per event for printing
 	double v2_2 = (c2_2 > 0) ? std::sqrt(c2_2) : 0;
-	double v2_4 = (c4_2 < 0) ? std::pow(-c4_2, 0.25) : 0;
 	double v3_2 = (c2_3 > 0) ? std::sqrt(c2_3) : 0;
-	double v3_4 = (c4_3 < 0) ? std::pow(-c4_3, 0.25) : 0;
-	
+		
 	std::cout << "Event " << event_number
 		  << " Pions: " << pion_count
 		  << " Mean_pT: " << mean_pt
-		  << " v2{2}: " << v2_2 << " v2{4}: " << v2_4
-		  << " v3{2}: " << v3_2 << " v3{4}: " << v3_4
+		  << " v2{2}: " << v2_2
+		  << " v3{2}: " << v3_2 
 		  << std::endl;
 	
 	processed_events++;
