@@ -21,8 +21,18 @@ cd X-SCAPE
 mkdir build
 ```
 
+## JETSCAPE Installation
+(in docker or singularity)
+```
+mkdir myJETSCAPE
+cd myJETSCAPE
+git clone https://github.com/JETSCAPE/JETSCAPE.git
+cd JETSCAPE
+mkdir build
+```
+
 ### External Packages
-(cmake components will be in build directory after running scripts to install packages)
+(cmake components will be in build directory after running scripts to install packages, only download these packages if using hydrodynamics or soft particlization)
 ```
 cd external_packages
 ./get_3dglauber.sh
@@ -33,14 +43,15 @@ cd external_packages
 ```
 Download PYTHIA (in external_packages directory)
 ```
-wget https://pythia.org/download/pythia83/pythia8309.tgz
-tar zxf pythia8309.tgz
-mv pythia8309.tgz pythia8309
-cd pythia8309
+wget https://pythia.org/download/pythia83/pythia8315.tgz
+tar zxf pythia8315.tgz
+mv pythia8315.tgz pythia8315
+cd pythia8315
 ./configure
 make -j4 install
 ```
-Download Eigen (in external_packages directory)
+
+Download Eigen (in external_packages directory, only needed with SMASH)
 ```
 wget -O eigen.tar.bz2 https://gitlab.com/libeigen/eigen/-/archive/3.3.9/eigen-3.3.9.tar.bz2
 tar xjf eigen.tar.bz2
@@ -55,13 +66,13 @@ emacs prepare.sh
 ```
 Write this in the file:
 ```
-export EIGEN_INSTALL_DIR=`readlink -f ./eigen`
-export EIGEN3_ROOT=`readlink -f ./eigen`
-export GSL=$(gsl-config --prefix)
+export EIGEN_INSTALL_DIR=`readlink -f ./eigen` #only use with SMASH
+export EIGEN3_ROOT=`readlink -f ./eigen` #only use with SMASH
+export GSL=$(gsl-config --prefix) 
 export GSL_HOME=$(gsl-config --prefix)
 export GSL_ROOT_DIR=$(gsl-config --prefix)
 export XSCAPE_DIR=`readlink -f .`
-export SMASH_DIR=/home/<username>/jetbox/myX-SCAPE/X-SCAPE/external_packages/smash/smash_code
+export SMASH_DIR=/home/<username>/jetbox/myX-SCAPE/X-SCAPE/external_packages/smash/smash_code #only use if using SMASH
 export PYTHIAINSTALLDIR=`readlink -f .`
 export PYTHIA8DIR=${PYTHIAINSTALLDIR}/pythia8309
 export PYTHIA8_ROOT_DIR=${PYTHIAINSTALLDIR}/pythia8309
@@ -69,10 +80,12 @@ export CC=gcc
 export CXX=g++
 export OpenMP_CXX=g++
 ```
+
 Save and exit file, then source it
 ```
 source prepare.sh
 ```
+
 PYTHIA and Eigen are pre-requisites to SMASH, so now we can install SMASH
 ```
 ./get_smash.sh
@@ -87,6 +100,11 @@ source prepare.sh
 cd ../build
 cmake .. -DUSE_3DGlauber=ON -DUSE_MUSIC=ON -DUSE_FREESTREAM=ON -DUSE_ISS=ON -DUSE_SMASH=ON
 ```
+If only using hard sector:
+```
+cmake ..
+```
+
 Wait for cmake to compile, then make and install:
 ```
 make -j4 install
