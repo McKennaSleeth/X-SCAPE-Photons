@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+
+<jetscape>
+
+  <nEvents> 1000000 </nEvents>
+  <setReuseHydro> true </setReuseHydro>
+  <nReuseHydro> 2000000 </nReuseHydro>
+
+<!--  <JetScapeWriterAscii> on </JetScapeWriterAscii> -->
+  <JetScapeWriterFinalStateHadronsAscii> on </JetScapeWriterFinalStateHadronsAscii>
+  <outputFilename>photon_AuAu_pTHat18_20_alldecayoff_noprompt_nohydro_1M</outputFilename>
+  <vlevel> 0 </vlevel>
+  <nEvents_printout> 100 </nEvents_printout>
+
+  <Random>
+    <seed>0</seed>
+  </Random>
+
+  <!-- Inital State Module  -->
+    <IS>
+
+    <grid_max_x> 15 </grid_max_x>
+    <grid_max_y> 15 </grid_max_y>
+    <grid_max_z> 0 </grid_max_z>
+    <grid_step_x> 0.2 </grid_step_x>
+    <grid_step_y> 0.2 </grid_step_y>
+
+    <Trento>
+      <PhysicsInputs  projectile='Au'
+                      target='Au'
+                      sqrts='200'
+                      cross-section='4.2'
+                      normalization='5.73'>
+      </PhysicsInputs>
+      <CutInputs
+          centrality-low='0'
+          centrality-high='10'>
+      </CutInputs>
+      <TransInputs  reduced-thickness='0.063'
+                    fluctuation="0.918"
+		    nucleon-width="0.956"
+                    nucleon-min-dist="1.27">
+      </TransInputs>
+      <LongiInputs  mean-coeff="1.0"
+                    std-coeff="3.0"
+                    skew-coeff="0.0"
+                    skew-type="1"
+                    jacobian="0.8">
+      </LongiInputs>
+    </Trento>
+  </IS>
+
+  <!-- Hard Process -->
+  
+  <Hard>
+    <PythiaGun>
+      <FSR_on>0</FSR_on>
+      <pTHatMin>18</pTHatMin>
+      <pTHatMax>20</pTHatMax>
+      <eCM>200</eCM>
+      <LinesToRead>
+	HardQCD:all = on
+	PromptPhoton:all = on
+	PDF:useHardNPDFA=on
+        PDF:useHardNPDFB=on
+        PDF:nPDFSetA=1
+        PDF:nPDFSetB=1
+        PDF:nPDFBeamA = 100791970
+        PDF:nPDFBeamB = 100791970
+      </LinesToRead>
+    </PythiaGun>
+  </Hard>
+  
+  
+  <Eloss>
+
+    
+    <Matter>
+      <Q0> 1.0 </Q0>
+      <in_vac> 1 </in_vac>
+      <vir_factor> 0.25 </vir_factor>
+      <recoil_on> 0 </recoil_on>
+      <broadening_on> 0 </broadening_on>
+      <brick_med> 0 </brick_med>
+    </Matter>
+    
+    <!-- 
+    <deltaT>0.1</deltaT>
+    <formTime> -0.1</formTime>
+    <maxT>150</maxT>
+    <tStart> 0.6 </tStart> 
+    <mutex>ON</mutex>
+
+    <Matter>
+      <name>Matter</name>
+      <matter_on> 1 </matter_on>
+      <Q0> 2.0 </Q0>
+      <T0> 0.16 </T0>
+      <vir_factor> 0.25 </vir_factor>
+      <in_vac> 0 </in_vac>
+      <recoil_on> 1 </recoil_on>
+      <broadening_on> 0 </broadening_on>
+      <brick_med> 0 </brick_med>   
+      <brick_length> 5.0 </brick_length>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      
+      <QhatParametrizationType> 5  </QhatParametrizationType>
+      <qhat0> -2.0 </qhat0>  
+      <alphas> 0.3 </alphas>
+      <qhatA> 10.0 </qhatA>    
+      <qhatB> 100.0 </qhatB>    
+      <qhatC> 0.2 </qhatC>    
+      <qhatD> 5.0 </qhatD>    
+    </Matter>
+
+    <Lbt>
+      <name> Lbt </name>
+      <Q0> 2.0 </Q0>
+      <in_vac> 0 </in_vac>
+      <only_leading> 0 </only_leading>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      <alphas> 0.3 </alphas>
+      <run_alphas>1</run_alphas>   
+    </Lbt>
+    -->
+  </Eloss>
+
+  <JetHadronization>
+    <name>colorless</name>
+    <take_recoil>1</take_recoil>
+    <eCMforHadronization>100</eCMforHadronization>
+    <LinesToRead>
+      HadronLevel:Decay = off      
+    </LinesToRead>
+  </JetHadronization>
+</jetscape>

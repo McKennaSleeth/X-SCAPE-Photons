@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+
+<jetscape>
+
+  <nEvents> 1000 </nEvents>
+  <setReuseHydro> true </setReuseHydro>
+  <nReuseHydro> 2000 </nReuseHydro>
+
+<!--  <JetScapeWriterAscii> on </JetScapeWriterAscii> -->
+  <JetScapeWriterFinalStateHadronsAscii> on </JetScapeWriterFinalStateHadronsAscii>
+  <outputFilename>jetscape_AuAu_pTHat18_20_hard_sector_hydro_REPLACE_HYDRO_DIR_centr_1k_events</outputFilename>
+  <vlevel> 0 </vlevel>
+  <nEvents_printout> 100 </nEvents_printout>
+
+  <Random>
+    <seed>0</seed>
+  </Random>
+  <!-- Inital State Module  -->
+  <IS>
+    <!-- initial_profile_path  /wsu/home/groups/maj-shen/JETSCAPEDataFile/HydroProfiles/5020GeV_0-10  initial_profile_path -->
+    <!-- <initial_profile_path>../examples/test_hydro_files</initial_profile_path> -->
+    <initial_profile_path>REPLACE_HYDRO_DIR</initial_profile_path>
+  </IS>
+
+  <!-- Hard Process -->
+  
+  <Hard>
+    <PythiaGun>
+      <FSR_on>0</FSR_on>
+      <pTHatMin>18</pTHatMin>
+      <pTHatMax>20</pTHatMax>
+      <eCM>200</eCM>
+      <LinesToRead>
+	HardQCD:all = on
+	PromptPhoton:all = on
+	PDF:useHardNPDFA=on
+        PDF:useHardNPDFB=on
+        PDF:nPDFSetA=1
+        PDF:nPDFSetB=1
+        PDF:nPDFBeamA = 100791970
+        PDF:nPDFBeamB = 100791970
+      </LinesToRead>
+    </PythiaGun>
+  </Hard>
+  
+  
+  <Preequilibrium>
+    <NullPreDynamics> </NullPreDynamics>
+  </Preequilibrium>
+
+  
+  <Hydro>
+    <hydro_from_file>
+      <name>Hydro from file </name>
+      <read_in_multiple_hydro>1</read_in_multiple_hydro>
+      <hydro_files_folder>REPLACE_HYDRO_DIR</hydro_files_folder>
+    </hydro_from_file>
+  </Hydro>
+
+  <Eloss>
+
+    <deltaT>0.1</deltaT>
+    <formTime> -0.1</formTime>
+    <maxT>150</maxT>
+    <tStart> 0.6 </tStart> 
+    <mutex>ON</mutex>
+
+    <Matter>
+      <name>Matter</name>
+      <matter_on> 1 </matter_on>
+      <Q0> 2.0 </Q0>
+      <T0> 0.16 </T0>
+      <vir_factor> 0.25 </vir_factor>
+      <in_vac> 0 </in_vac>
+      <recoil_on> 1 </recoil_on>
+      <broadening_on> 0 </broadening_on>
+      <brick_med> 0 </brick_med>   
+      <brick_length> 5.0 </brick_length>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      
+      <QhatParametrizationType> 5  </QhatParametrizationType>
+      <qhat0> -2.0 </qhat0>  
+      <alphas> 0.3 </alphas>
+      <qhatA> 10.0 </qhatA>    
+      <qhatB> 100.0 </qhatB>    
+      <qhatC> 0.2 </qhatC>    
+      <qhatD> 5.0 </qhatD>    
+    </Matter>
+
+    <Lbt>
+      <name> Lbt </name>
+      <Q0> 2.0 </Q0>
+      <in_vac> 0 </in_vac>
+      <only_leading> 0 </only_leading>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      <alphas> 0.3 </alphas>
+      <run_alphas>1</run_alphas>   
+    </Lbt>
+  </Eloss>
+
+  <JetHadronization>
+    <name>colorless</name>
+    <take_recoil>1</take_recoil>
+    <eCMforHadronization>100</eCMforHadronization>
+    <LinesToRead>
+      HadronLevel:Decay = off      
+    </LinesToRead>
+  </JetHadronization>
+</jetscape>
